@@ -40,6 +40,7 @@ return {
     { {},         'i',      'upLeft' },
     { {},         'o',      'upRight' },
     { {},         ',',      'downLeft' },
+    { {'shift'},         ',',      'downLeftTall' },
     { {},         '.',      'downRight' },
     { {},         'n',      'nextScreen' },
     { {},         'right',  'moveOneScreenEast' },

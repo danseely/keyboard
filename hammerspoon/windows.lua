@@ -103,6 +103,23 @@ function hs.window.downLeft(win)
 end
 
 -- +-----------------+
+-- +--------+        |
+-- |  HERE  |        |
+-- |        |        |
+-- +-----------------+
+function hs.window.downLeftTall(win)
+  local f = win:frame()
+  local screen = win:screen()
+  local max = screen:fullFrame()
+
+  f.x = max.x
+  f.y = max.y + (max.h * 0.3)
+  f.w = max.w/2
+  f.h = max.h * 0.7
+  win:setFrame(f)
+end
+
+-- +-----------------+
 -- |                 |
 -- |        +--------|
 -- |        |  HERE  |
