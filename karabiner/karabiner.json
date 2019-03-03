@@ -615,6 +615,36 @@
               }
             }
           ]
+        },
+        {
+          "disable_built_in_keyboard_if_exists": false,
+          "fn_function_keys": [],
+          "identifiers": {
+            "is_keyboard": true,
+            "is_pointing_device": false,
+            "product_id": 569,
+            "vendor_id": 1452
+          },
+          "ignore": false,
+          "manipulate_caps_lock_led": true,
+          "simple_modifications": [
+            {
+              "from": {
+                "key_code": "backslash"
+              },
+              "to": {
+                "key_code": "delete_or_backspace"
+              }
+            },
+            {
+              "from": {
+                "key_code": "delete_or_backspace"
+              },
+              "to": {
+                "key_code": "backslash"
+              }
+            }
+          ]
         }
       ],
       "fn_function_keys": [

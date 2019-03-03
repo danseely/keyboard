@@ -41,6 +41,8 @@ return {
     { {},         'o',      'upRight' },
     { {},         ',',      'downLeft' },
     { {'shift'},         ',',      'downLeftTall' },
+    { {'shift'},         'k',      'fuzzy' },
+    { {'shift'},         'return',      'bigFuzzy' },
     { {},         '.',      'downRight' },
     { {},         'n',      'nextScreen' },
     { {},         'right',  'moveOneScreenEast' },

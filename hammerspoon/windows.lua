@@ -1,5 +1,8 @@
 hs.window.animationDuration = 0
 
+-- to log:
+-- hs.logger.new('windows'):e('message string', variable)
+
 -- +-----------------+
 -- |        |        |
 -- |  HERE  |        |
@@ -9,6 +12,8 @@ function hs.window.left(win)
   local f = win:frame()
   local screen = win:screen()
   local max = screen:frame()
+
+  hs.logger.new('windows'):e('width', max.w)
 
   f.x = max.x
   f.y = max.y
@@ -202,6 +207,106 @@ function hs.window.right60(win)
   f.y = max.y
   f.w = max.w * 0.6
   f.h = max.h
+  win:setFrame(f)
+end
+
+-- +-----------------+
+-- |  ?    ,-----, ? |
+-- |     ? |     |   |
+-- |   ?   `-----`  ?|
+-- +-----------------+
+function hs.window.fuzzy(win)
+  -- An hs.geometry rect containing the co-ordinates of the top left corner
+  -- of the window and its width and height
+  local f = win:frame()
+
+  -- An hs.screen object representing the screen which most contains the window (by area)
+  local screen = win:screen()
+
+  -- an hs.geometry rect describing this screen's "usable" frame
+  -- (i.e. without the dock and menu bar) in absolute coordinates
+  local max = screen:frame()
+
+---------------------------------
+-- @TODO
+-- let's change this to:
+-- 90% of height of screen
+-- 60% of the width of the screen
+---------------------------------
+
+-- first, set our window to the correct size,
+-- i.e. ~80% the size of our screen
+  f.w = max.w * 0.70
+  f.h = max.h * 0.85
+
+-- next, put it in a random location, with some padding
+-- remaining around the borders (that's what the the `50` is for)
+
+  local maxX = (max.w - f.w) * 0.95
+  local maxY = (max.h - f.h) * 0.95
+
+  local minX = (max.w - f.w) * 0.05
+  local minY = (max.h - f.h) * 0.05
+
+
+  f.x = math.random(math.floor(minX), math.floor(maxX))
+  f.y = math.random(math.floor(minY), math.floor(maxY))
+
+
+
+
+
+  -- local maxX = max.w - ((max.w * 0.75) - 50)
+  -- local maxY = max.h - ((max.h * 0.85) - 50)
+
+  -- f.x = math.random(0, math.floor(maxX))
+  -- f.y = math.random(0, math.floor(maxY))
+
+  -- hs.logger.new('windows'):e('f.x ', f.x)
+  -- hs.logger.new('windows'):e('maxX ', maxX)
+  -- hs.logger.new('windows'):e('f.y ', f.y)
+  -- hs.logger.new('windows'):e('maxY ', maxY)
+  -- hs.logger.new('windows'):e('max.w ', max.w)
+  -- hs.logger.new('windows'):e('max.h ', max.h)
+  -- hs.logger.new('windows'):e('max.x ', max.x)
+  -- hs.logger.new('windows'):e('max.y ', max.y)
+
+  win:setFrame(f)
+end
+
+-- +-----------------+
+-- |  ?     ?        |
+-- |     ?        ?  |
+-- |   ?      ?      |
+-- +-----------------+
+function hs.window.bigFuzzy(win)
+  local f = win:frame()
+  local screen = win:screen()
+  local max = screen:frame()
+
+-- first, set our window to the correct size,
+-- i.e. ~95% the size of our screen
+  f.w = max.w * 0.96
+  f.h = max.h * 0.96
+
+  local maxX = max.w - f.w
+  local maxY = max.h - f.h
+
+-- next, put it in a random location, with some padding
+-- remaining around the borders (that's what the the `50` is for)
+--
+-- NOTE for some reason, it's not taking into account the menu bar,
+-- so I'm accounting for it with a 23-point buffer
+
+  local maxDesiredX = (maxX) * 0.96
+  local maxDesiredY = ((maxY) * 0.96) + 23
+
+  local minDesiredX = (max.w - f.w) * 0.04
+  local minDesiredY = ((max.h - f.h) * 0.04) + 23
+
+  f.x = math.random(math.floor(minDesiredX), math.floor(maxDesiredX))
+  f.y = math.random(math.floor(minDesiredY), math.floor(maxDesiredY))
+
   win:setFrame(f)
 end
 
