@@ -212,7 +212,7 @@ end
 
 -- +-----------------+
 -- |  ?    ,-----, ? |
--- |     ? |     |   |
+-- |     ? |HERE |   |
 -- |   ?   `-----`  ?|
 -- +-----------------+
 function hs.window.fuzzy(win)
@@ -238,6 +238,11 @@ function hs.window.fuzzy(win)
 -- i.e. ~80% the size of our screen
   f.w = max.w * 0.70
   f.h = max.h * 0.85
+  
+  hs.logger.new('windows'):e('max width ', max.w)
+  hs.logger.new('windows'):e('max height ', max.h)
+  hs.logger.new('windows'):e('aspect ', max.w / max.h)
+  hs.logger.new('windows'):e('screen ', screen)
 
 -- next, put it in a random location, with some padding
 -- remaining around the borders (that's what the the `50` is for)
@@ -274,36 +279,50 @@ function hs.window.fuzzy(win)
   win:setFrame(f)
 end
 
--- +-----------------+
--- |  ?     ?        |
--- |     ?        ?  |
--- |   ?      ?      |
--- +-----------------+
+-- +------------------------------+
+-- |  ?     ?          ?        ? |
+-- |  .-----------------------,   |
+-- |? |                       | ? |
+-- |  |         HERE          |   |
+-- |  |                       |  ?|
+-- | ?`-----------------------`?  |
+-- +------------------------------+
 function hs.window.bigFuzzy(win)
+  -- An hs.geometry rect containing the co-ordinates of the top left corner
+  -- of the window and its width and height
   local f = win:frame()
+
+  -- An hs.screen object representing the screen
+  -- which most contains the window (by area)
   local screen = win:screen()
+
+  -- an hs.geometry rect describing this screen's "usable" frame
+  -- (i.e. without the dock and menu bar) in absolute coordinates
   local max = screen:frame()
 
--- first, set our window to the correct size,
--- i.e. ~95% the size of our screen
+  -- first, set our window to the correct size,
+  -- i.e. ~95% the size of our screen
   f.w = max.w * 0.96
   f.h = max.h * 0.96
 
+  -- next, put it in a random location, with some padding
+  -- remaining around the borders (that's what the the `50` is for)
+  --
+  -- NOTE for some reason, it's not taking into account the menu bar,
+  -- so I'm accounting for it with a 23-point buffer
+
+  -- get our maximum x & y values
   local maxX = max.w - f.w
   local maxY = max.h - f.h
 
--- next, put it in a random location, with some padding
--- remaining around the borders (that's what the the `50` is for)
---
--- NOTE for some reason, it's not taking into account the menu bar,
--- so I'm accounting for it with a 23-point buffer
-
+  -- now calculate the max x & y values for our position range
+  -- (i.e. make sure to leave a bit of a buffer around the edge of the screen)
   local maxDesiredX = (maxX) * 0.96
   local maxDesiredY = ((maxY) * 0.96) + 23
-
   local minDesiredX = (max.w - f.w) * 0.04
   local minDesiredY = ((max.h - f.h) * 0.04) + 23
 
+  -- now, using our desired position ranges, create a random location
   f.x = math.random(math.floor(minDesiredX), math.floor(maxDesiredX))
   f.y = math.random(math.floor(minDesiredY), math.floor(maxDesiredY))
 
